@@ -5,7 +5,7 @@ import graphql from 'graphql'
 
 const IndexPage = ({ data }) => (
   <Container>
-    {data.allMarkdownRemark.edges.filter(post => post.node.frontmatter.contentType === 'blog').map(({ node: post }) => (
+    {data.allMarkdownRemark.edges.filter(post => !post.hidden && post.node.frontmatter.contentType === 'blog').map(({ node: post }) => (
       <Card style={{marginBottom: 10}} key={post.id}>
         <CardBody>
           <CardTitle><Link to={post.frontmatter.path}>{post.frontmatter.title}</Link></CardTitle>
@@ -31,6 +31,7 @@ export const pageQuery = graphql`
             contentType
             date(formatString: "MMMM DD, YYYY")
             path
+            hidden
           }
         }
       }
